@@ -773,6 +773,9 @@ function startSurvey() {
   document.getElementById('survey-screen').classList.add('active');
   document.getElementById('header-progress').style.display = 'block';
   render();
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
 }
 
 function render() {
@@ -843,10 +846,77 @@ function pick(k, v) {
 }
 
 function nextSec() {
-  if (cur < SECTIONS.length - 1) { cur++; render(); scrollTo(0,0); }
+  // 미응답 문항 체크
+  const sec = SECTIONS[cur];
+  let unanswered = [];
+  let qn = globalQStart(cur);
+  sec.subs.forEach((sub, bi) => {
+    sub.items.forEach((_, ii) => {
+      if (ans[key(cur, bi, ii)] === undefined) {
+        unanswered.push(qn);
+      }
+      qn++;
+    });
+  });
+
+  if (unanswered.length > 0) {
+    // 경고 메시지 표시
+    showWarning(unanswered);
+    // 첫 미응답 문항으로 스크롤
+    const firstKey = getKeyFromQn(unanswered[0]);
+    const el = document.getElementById('qb_' + firstKey);
+    if (el) {
+      el.style.border = '2px solid #E53E3E';
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => { el.style.border = ''; }, 3000);
+    }
+    return;
+  }
+
+  hideWarning();
+  if (cur < SECTIONS.length - 1) { cur++; render(); window.scrollTo({ top: 0, behavior: 'instant' }); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; }
   else showResult();
 }
-function prevSec() { if (cur > 0) { cur--; render(); scrollTo(0,0); } }
+function prevSec() { if (cur > 0) { cur--; render(); window.scrollTo({ top: 0, behavior: 'instant' }); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } }
+
+function globalQStart(si) {
+  let n = 1;
+  for (let s = 0; s < si; s++) SECTIONS[s].subs.forEach(sub => n += sub.items.length);
+  return n;
+}
+
+function getKeyFromQn(targetQn) {
+  let qn = 1;
+  for (let si = 0; si < SECTIONS.length; si++) {
+    const sec = SECTIONS[si];
+    for (let bi = 0; bi < sec.subs.length; bi++) {
+      for (let ii = 0; ii < sec.subs[bi].items.length; ii++) {
+        if (qn === targetQn) return key(si, bi, ii);
+        qn++;
+      }
+    }
+  }
+  return null;
+}
+
+function showWarning(unanswered) {
+  let box = document.getElementById('warning-box');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'warning-box';
+    box.style.cssText = 'position:fixed; top:70px; left:50%; transform:translateX(-50%); background:#E53E3E; color:white; padding:12px 20px; border-radius:10px; font-size:14px; font-weight:500; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.2); text-align:center; max-width:90%; line-height:1.6;';
+    document.body.appendChild(box);
+  }
+  const nums = unanswered.join(', Q');
+  box.innerHTML = '⚠️ 아직 응답하지 않은 문항이 있어요!<br><span style="font-size:12px; font-weight:400;">Q' + nums + ' 번 문항에 답변해주세요</span>';
+  box.style.display = 'block';
+  setTimeout(() => { if(box) box.style.display = 'none'; }, 4000);
+}
+
+function hideWarning() {
+  const box = document.getElementById('warning-box');
+  if (box) box.style.display = 'none';
+}
 
 function secAvg(si) {
   const sec = SECTIONS[si];
