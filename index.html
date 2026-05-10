@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans CJK KR', sans-serif;
+  font-size: 10pt;
+  color: #1C1C1E;
+  background: white;
+  padding: 6mm 12mm 6mm 12mm;
+}
+
+.header { margin-bottom: 5mm; }
+.header h1 {
+  font-family: 'Noto Serif CJK KR', serif;
+  font-size: 19pt;
+  font-weight: 600;
+  color: #3C3489;
+  margin-bottom: 2mm;
+}
+.header .sub { font-size: 10.5pt; color: #48484A; margin-bottom: 1mm; }
+.header .org { font-size: 10pt; color: #8E8E93; }
+
+.info-bar { display: flex; border: 1px solid #E0D9D0; border-radius: 6px; overflow: hidden; margin-bottom: 2.5mm; }
+.info-item { flex: 1; text-align: center; padding: 2.5mm 0; border-right: 1px solid #E0D9D0; }
+.info-item:last-child { border-right: none; }
+.info-item .label { font-size: 9pt; color: #8E8E93; display: block; margin-bottom: 1mm; }
+.info-item .val { font-size: 11.5pt; font-weight: 500; color: #3C3489; }
+
+.scale-bar { display: flex; border: 1px solid #C5C0F5; border-radius: 6px; overflow: hidden; margin-bottom: 3mm; background: #EEEDFE; }
+.scale-item { flex: 1; text-align: center; padding: 2mm 0; border-right: 1px solid #C5C0F5; color: #3C3489; font-size: 9.5pt; }
+.scale-item:last-child { border-right: none; }
+.scale-item .snum { font-size: 12pt; font-weight: 700; display: block; }
+
+.section { margin-bottom: 1.5mm; }
+.sec-header { padding: 3mm 5mm; color: white; font-size: 11.5pt; font-weight: 500; border-radius: 4px 4px 0 0; }
+.sec-s1 { background: #3C3489; }
+.sec-s2 { background: #185FA5; }
+.sec-s3 { background: #3B6D11; }
+
+.subsec { font-size: 9.5pt; font-weight: 700; padding: 1mm 3mm; border-left: 3px solid; }
+.subsec-s1 { color: #3C3489; border-color: #3C3489; background: #F7F6FE; }
+.subsec-s2 { color: #185FA5; border-color: #185FA5; background: #F0F6FD; }
+.subsec-s3 { color: #3B6D11; border-color: #3B6D11; background: #F3F8EC; }
+
+table.qtable { width: 100%; border-collapse: collapse; }
+table.qtable tr { height: 7mm; }
+table.qtable tr td { border: 0.3px solid #E0D9D0; padding: 0; vertical-align: middle; padding-left: 2mm; padding-right: 2mm; }
+table.qtable tr:nth-child(even) { background: #FAF8F4; }
+table.qtable tr:nth-child(odd)  { background: white; }
+.td-num { width: 9mm; text-align: center; color: #8E8E93; font-size: 10pt; }
+.td-q   { font-size: 11pt; line-height: 1.45; }
+.td-score { width: 8.5mm; text-align: center; font-size: 10pt; font-weight: 700; color: #3C3489; background: #F0EFFE !important; }
+.td-score-2 { color: #185FA5; background: #EDF4FD !important; }
+.td-score-3 { color: #3B6D11; background: #EDF6E5 !important; }
+
+.result-section { margin-top: 4mm; }
+.result-title { font-size: 13pt; font-weight: 700; color: #3C3489; margin-bottom: 4mm; padding-bottom: 2mm; border-bottom: 1.5px solid #3C3489; }
+
+table.rtable { width: 100%; border-collapse: collapse; font-size: 10.5pt; margin-bottom: 4mm; }
+table.rtable th { background: #3C3489; color: white; padding: 3mm 4mm; text-align: center; font-weight: 500; border: 0.5px solid #2E2672; }
+table.rtable td { padding: 2.5mm 4mm; border: 0.3px solid #E0D9D0; vertical-align: middle; height: 8mm; }
+table.rtable .subtotal  { background: #EEEDFE; font-weight: 700; color: #3C3489; }
+table.rtable .subtotal-2 { background: #E6F1FB; font-weight: 700; color: #185FA5; }
+table.rtable .subtotal-3 { background: #EAF3DE; font-weight: 700; color: #3B6D11; }
+table.rtable .total-row { background: #F0EEE8; font-weight: 700; }
+table.rtable .write-col { background: #FFFDF7; }
+.center { text-align: center; }
+
+.attach-box { display: flex; border: 0.5px solid #E0D9D0; border-radius: 6px; overflow: hidden; margin-bottom: 4mm; }
+.attach-label { background: #E6F1FB; color: #185FA5; font-weight: 700; font-size: 10.5pt; padding: 4mm 5mm; white-space: nowrap; display: flex; align-items: center; min-width: 40mm; }
+.attach-options { padding: 4mm 5mm; font-size: 11pt; color: #48484A; display: flex; align-items: center; }
+
+.memo-box { display: flex; border: 0.5px solid #E0D9D0; border-radius: 6px; overflow: hidden; margin-bottom: 4mm; }
+.memo-label { background: #EAF3DE; color: #3B6D11; font-weight: 700; font-size: 10.5pt; padding: 4mm 5mm; min-width: 26mm; display: flex; align-items: flex-start; padding-top: 5mm; }
+.memo-content { flex: 1; min-height: 20mm; padding: 3mm; }
+
+.footer { margin-top: 5mm; padding-top: 3mm; border-top: 0.5px solid #E0D9D0; font-size: 7pt; color: #8E8E93; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>이성 판단 및 관계 유형 검사</h1>
+  <div class="sub">심리 상담 · 연애 판단 척도 | 상담용 설문지</div>
+  <div class="org">지음가정상담소 &nbsp;·&nbsp; www.ziumzium.com</div>
+</div>
+
+<div class="info-bar">
+  <div class="info-item"><span class="label">총 문항</span><span class="val">42문항</span></div>
+  <div class="info-item"><span class="label">응답 척도</span><span class="val">1 ~ 5점</span></div>
+  <div class="info-item"><span class="label">소요 시간</span><span class="val">약 10분</span></div>
+  <div class="info-item"><span class="label">이름</span><span class="val">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+  <div class="info-item"><span class="label">나이</span><span class="val">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+  <div class="info-item"><span class="label">실시일</span><span class="val">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+</div>
+
+<div class="scale-bar">
+  <div class="scale-item"><span class="snum">1</span>전혀 아니다</div>
+  <div class="scale-item"><span class="snum">2</span>아니다</div>
+  <div class="scale-item"><span class="snum">3</span>보통이다</div>
+  <div class="scale-item"><span class="snum">4</span>그렇다</div>
+  <div class="scale-item"><span class="snum">5</span>매우 그렇다</div>
+</div>
+
+<!-- SECTION 1 -->
+<div class="section">
+  <div class="sec-header sec-s1">영역 1 &nbsp;|&nbsp; 이성 판단 기준</div>
+  <div class="subsec subsec-s1">① 정서·성격 기준</div>
+  <table class="qtable">
+    <tr><td class="td-num">Q1</td><td class="td-q">나는 상대의 배려심을 중요하게 본다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+    <tr><td class="td-num">Q2</td><td class="td-q">나는 상대의 성격이 안정적인지를 중요하게 생각한다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+    <tr><td class="td-num">Q3</td><td class="td-q">나는 상대가 나를 존중하는지를 중요하게 본다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+    <tr><td class="td-num">Q4</td><td class="td-q">나는 상대의 가치관이 나와 맞는지를 중요하게 생각한다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+    <tr><td class="td-num">Q5</td><td class="td-q">나는 상대가 정직한 사람인지 중요하게 본다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+    <tr><td class="td-num">Q6</td><td class="td-q">나는 갈등 상황에서 성숙하게 행동하는지를 본다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+  </table>
+  <div class="subsec subsec-s1">② 외적 매력 기준</div>
+  <table class="qtable">
+    <tr><td class="td-num">Q7</td><td class="td-q">나는 외모가 중요한 요소라고 생각한다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+    <tr><td class="td-num">Q8</td><td class="td-q">나는 상대에게 신체적 매력을 느끼는지가 중요하다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+    <tr><td class="td-num">Q9</td><td class="td-q">나는 스타일이나 분위기를 중요하게 본다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+    <tr><td class="td-num">Q10</td><td class="td-q">나는 첫인상이 중요한 기준이 된다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+  </table>
+  <div class="subsec subsec-s1">③ 현실 조건 기준</div>
+  <table class="qtable">
+    <tr><td class="td-num">Q11</td><td class="td-q">나는 경제적 안정성을 중요하게 생각한다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+    <tr><td class="td-num">Q12</td><td class="td-q">나는 직업이나 미래 가능성을 중요하게 본다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+    <tr><td class="td-num">Q13</td><td class="td-q">나는 학력이나 능력을 중요하게 고려한다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+    <tr><td class="td-num">Q14</td><td class="td-q">나는 생활 수준이 나와 비슷한지를 본다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+  </table>
+  <div class="subsec subsec-s1">④ 관계 적합성</div>
+  <table class="qtable">
+    <tr><td class="td-num">Q15</td><td class="td-q">나는 대화가 잘 통하는지를 중요하게 생각한다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+    <tr><td class="td-num">Q16</td><td class="td-q">나는 함께 있을 때 편안한지를 중요하게 본다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+    <tr><td class="td-num">Q17</td><td class="td-q">나는 장기적으로 함께할 수 있는지를 고려한다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+    <tr><td class="td-num">Q18</td><td class="td-q">나는 서로 성장에 도움이 되는 관계인지 본다</td><td class="td-score">1</td><td class="td-score">2</td><td class="td-score">3</td><td class="td-score">4</td><td class="td-score">5</td></tr>
+  </table>
+</div>
+
+<!-- SECTION 2 -->
+<div class="section">
+  <div class="sec-header sec-s2">영역 2 &nbsp;|&nbsp; 애착 유형</div>
+  <div class="subsec subsec-s2">① 애착불안</div>
+  <table class="qtable">
+    <tr><td class="td-num">Q19</td><td class="td-q">상대가 나를 떠날까 봐 걱정한다</td><td class="td-score td-score-2">1</td><td class="td-score td-score-2">2</td><td class="td-score td-score-2">3</td><td class="td-score td-score-2">4</td><td class="td-score td-score-2">5</td></tr>
+    <tr><td class="td-num">Q20</td><td class="td-q">나는 상대의 사랑을 자주 확인받고 싶다</td><td class="td-score td-score-2">1</td><td class="td-score td-score-2">2</td><td class="td-score td-score-2">3</td><td class="td-score td-score-2">4</td><td class="td-score td-score-2">5</td></tr>
+    <tr><td class="td-num">Q21</td><td class="td-q">나는 상대의 반응에 민감하게 흔들린다</td><td class="td-score td-score-2">1</td><td class="td-score td-score-2">2</td><td class="td-score td-score-2">3</td><td class="td-score td-score-2">4</td><td class="td-score td-score-2">5</td></tr>
+    <tr><td class="td-num">Q22</td><td class="td-q">나는 관계에서 버림받는 것이 두렵다</td><td class="td-score td-score-2">1</td><td class="td-score td-score-2">2</td><td class="td-score td-score-2">3</td><td class="td-score td-score-2">4</td><td class="td-score td-score-2">5</td></tr>
+    <tr><td class="td-num">Q23</td><td class="td-q">나는 상대가 나보다 덜 사랑하는 것 같다고 느낀다</td><td class="td-score td-score-2">1</td><td class="td-score td-score-2">2</td><td class="td-score td-score-2">3</td><td class="td-score td-score-2">4</td><td class="td-score td-score-2">5</td></tr>
+    <tr><td class="td-num">Q24</td><td class="td-q">나는 혼자 남겨지는 것이 불안하다</td><td class="td-score td-score-2">1</td><td class="td-score td-score-2">2</td><td class="td-score td-score-2">3</td><td class="td-score td-score-2">4</td><td class="td-score td-score-2">5</td></tr>
+  </table>
+  <div class="subsec subsec-s2">② 애착회피</div>
+  <table class="qtable">
+    <tr><td class="td-num">Q25</td><td class="td-q">나는 지나치게 가까워지는 것이 불편하다</td><td class="td-score td-score-2">1</td><td class="td-score td-score-2">2</td><td class="td-score td-score-2">3</td><td class="td-score td-score-2">4</td><td class="td-score td-score-2">5</td></tr>
+    <tr><td class="td-num">Q26</td><td class="td-q">나는 감정을 깊이 공유하는 것이 부담스럽다</td><td class="td-score td-score-2">1</td><td class="td-score td-score-2">2</td><td class="td-score td-score-2">3</td><td class="td-score td-score-2">4</td><td class="td-score td-score-2">5</td></tr>
+    <tr><td class="td-num">Q27</td><td class="td-q">나는 혼자가 더 편하다고 느낀다</td><td class="td-score td-score-2">1</td><td class="td-score td-score-2">2</td><td class="td-score td-score-2">3</td><td class="td-score td-score-2">4</td><td class="td-score td-score-2">5</td></tr>
+    <tr><td class="td-num">Q28</td><td class="td-q">나는 상대에게 의존하는 것을 피하려 한다</td><td class="td-score td-score-2">1</td><td class="td-score td-score-2">2</td><td class="td-score td-score-2">3</td><td class="td-score td-score-2">4</td><td class="td-score td-score-2">5</td></tr>
+    <tr><td class="td-num">Q29</td><td class="td-q">나는 감정 표현을 자제하는 편이다</td><td class="td-score td-score-2">1</td><td class="td-score td-score-2">2</td><td class="td-score td-score-2">3</td><td class="td-score td-score-2">4</td><td class="td-score td-score-2">5</td></tr>
+    <tr><td class="td-num">Q30</td><td class="td-q">나는 일정한 거리를 유지하는 것이 중요하다</td><td class="td-score td-score-2">1</td><td class="td-score td-score-2">2</td><td class="td-score td-score-2">3</td><td class="td-score td-score-2">4</td><td class="td-score td-score-2">5</td></tr>
+  </table>
+</div>
+
+<!-- SECTION 3 -->
+<div class="section" style="page-break-before: always; padding-top: 12mm;">
+  <div class="sec-header sec-s3">영역 3 &nbsp;|&nbsp; 연애 신념</div>
+  <div class="subsec subsec-s3">① 이상화·운명성</div>
+  <table class="qtable">
+    <tr><td class="td-num">Q31</td><td class="td-q">진정한 사랑은 운명적으로 정해져 있다고 생각한다</td><td class="td-score td-score-3">1</td><td class="td-score td-score-3">2</td><td class="td-score td-score-3">3</td><td class="td-score td-score-3">4</td><td class="td-score td-score-3">5</td></tr>
+    <tr><td class="td-num">Q32</td><td class="td-q">한 사람과의 사랑은 평생 지속되어야 한다</td><td class="td-score td-score-3">1</td><td class="td-score td-score-3">2</td><td class="td-score td-score-3">3</td><td class="td-score td-score-3">4</td><td class="td-score td-score-3">5</td></tr>
+    <tr><td class="td-num">Q33</td><td class="td-q">사랑하는 사람은 완벽해야 한다</td><td class="td-score td-score-3">1</td><td class="td-score td-score-3">2</td><td class="td-score td-score-3">3</td><td class="td-score td-score-3">4</td><td class="td-score td-score-3">5</td></tr>
+    <tr><td class="td-num">Q34</td><td class="td-q">사랑하면 모든 문제가 해결된다고 생각한다</td><td class="td-score td-score-3">1</td><td class="td-score td-score-3">2</td><td class="td-score td-score-3">3</td><td class="td-score td-score-3">4</td><td class="td-score td-score-3">5</td></tr>
+  </table>
+  <div class="subsec subsec-s3">② 비합리적 기대</div>
+  <table class="qtable">
+    <tr><td class="td-num">Q35</td><td class="td-q">상대는 내가 말하지 않아도 내 마음을 알아야 한다</td><td class="td-score td-score-3">1</td><td class="td-score td-score-3">2</td><td class="td-score td-score-3">3</td><td class="td-score td-score-3">4</td><td class="td-score td-score-3">5</td></tr>
+    <tr><td class="td-num">Q36</td><td class="td-q">사랑한다면 항상 나를 우선해야 한다</td><td class="td-score td-score-3">1</td><td class="td-score td-score-3">2</td><td class="td-score td-score-3">3</td><td class="td-score td-score-3">4</td><td class="td-score td-score-3">5</td></tr>
+    <tr><td class="td-num">Q37</td><td class="td-q">연애에서는 갈등이 없어야 한다</td><td class="td-score td-score-3">1</td><td class="td-score td-score-3">2</td><td class="td-score td-score-3">3</td><td class="td-score td-score-3">4</td><td class="td-score td-score-3">5</td></tr>
+    <tr><td class="td-num">Q38</td><td class="td-q">상대는 나를 항상 이해해야 한다</td><td class="td-score td-score-3">1</td><td class="td-score td-score-3">2</td><td class="td-score td-score-3">3</td><td class="td-score td-score-3">4</td><td class="td-score td-score-3">5</td></tr>
+  </table>
+  <div class="subsec subsec-s3">③ 관계 인식</div>
+  <table class="qtable">
+    <tr><td class="td-num">Q39</td><td class="td-q">사랑은 노력 없이 유지되어야 한다</td><td class="td-score td-score-3">1</td><td class="td-score td-score-3">2</td><td class="td-score td-score-3">3</td><td class="td-score td-score-3">4</td><td class="td-score td-score-3">5</td></tr>
+    <tr><td class="td-num">Q40</td><td class="td-q">좋은 관계는 자연스럽게 유지된다</td><td class="td-score td-score-3">1</td><td class="td-score td-score-3">2</td><td class="td-score td-score-3">3</td><td class="td-score td-score-3">4</td><td class="td-score td-score-3">5</td></tr>
+    <tr><td class="td-num">Q41</td><td class="td-q">관계에서 희생은 당연하다</td><td class="td-score td-score-3">1</td><td class="td-score td-score-3">2</td><td class="td-score td-score-3">3</td><td class="td-score td-score-3">4</td><td class="td-score td-score-3">5</td></tr>
+    <tr><td class="td-num">Q42</td><td class="td-q">상대는 나를 변화시키지 않아야 한다</td><td class="td-score td-score-3">1</td><td class="td-score td-score-3">2</td><td class="td-score td-score-3">3</td><td class="td-score td-score-3">4</td><td class="td-score td-score-3">5</td></tr>
+  </table>
+</div>
+
+<!-- RESULT -->
+<div class="result-section">
+  <div class="result-title">결과 요약표 &nbsp;|&nbsp; 상담자 기록용</div>
+  <table class="rtable">
+    <tr>
+      <th style="width:22%">영역</th><th style="width:22%">하위척도</th>
+      <th style="width:9%">문항수</th><th style="width:10%">합계</th>
+      <th style="width:10%">평균</th><th style="width:27%">메모</th>
+    </tr>
+    <tr><td>이성 판단 기준</td><td>정서·성격 기준</td><td class="center">6</td><td class="write-col"></td><td class="write-col"></td><td class="write-col"></td></tr>
+    <tr><td></td><td>외적 매력 기준</td><td class="center">4</td><td class="write-col"></td><td class="write-col"></td><td class="write-col"></td></tr>
+    <tr><td></td><td>현실 조건 기준</td><td class="center">4</td><td class="write-col"></td><td class="write-col"></td><td class="write-col"></td></tr>
+    <tr><td></td><td>관계 적합성</td><td class="center">4</td><td class="write-col"></td><td class="write-col"></td><td class="write-col"></td></tr>
+    <tr class="subtotal"><td colspan="2">이성 판단 기준 전체</td><td class="center">18</td><td></td><td></td><td></td></tr>
+    <tr><td>애착 유형</td><td>애착불안</td><td class="center">6</td><td class="write-col"></td><td class="write-col"></td><td class="write-col"></td></tr>
+    <tr><td></td><td>애착회피</td><td class="center">6</td><td class="write-col"></td><td class="write-col"></td><td class="write-col"></td></tr>
+    <tr class="subtotal-2"><td colspan="2">애착 유형 전체</td><td class="center">12</td><td></td><td></td><td></td></tr>
+    <tr><td>연애 신념</td><td>이상화·운명성</td><td class="center">4</td><td class="write-col"></td><td class="write-col"></td><td class="write-col"></td></tr>
+    <tr><td></td><td>비합리적 기대</td><td class="center">4</td><td class="write-col"></td><td class="write-col"></td><td class="write-col"></td></tr>
+    <tr><td></td><td>관계 인식</td><td class="center">4</td><td class="write-col"></td><td class="write-col"></td><td class="write-col"></td></tr>
+    <tr class="subtotal-3"><td colspan="2">연애 신념 전체</td><td class="center">12</td><td></td><td></td><td></td></tr>
+    <tr class="total-row"><td colspan="2">전체 합계</td><td class="center">42</td><td></td><td></td><td></td></tr>
+  </table>
+
+  <div class="attach-box">
+    <div class="attach-label">애착 유형 추정</div>
+    <div class="attach-options">안정형 &nbsp;/&nbsp; 몰두형 &nbsp;/&nbsp; 거리두기형 &nbsp;/&nbsp; 두려움형 &nbsp;&nbsp;(해당 사항에 O 표시)</div>
+  </div>
+
+  <div class="memo-box">
+    <div class="memo-label">상담자 메모</div>
+    <div class="memo-content"></div>
+  </div>
+</div>
+
+<div class="footer">
+  지음가정상담소 &nbsp;·&nbsp; www.ziumzium.com &nbsp;·&nbsp; 본 검사는 임상 진단 도구가 아니며, 반드시 상담자의 전문적 판단과 함께 해석되어야 합니다.
+</div>
+</body>
+</html>
