@@ -871,15 +871,15 @@ function subAvg(si, bi) {
 }
 
 function partnerComment(avg) {
-  if (avg >= 4.0) return { text: '전반적으로 이성 판단 기준이 매우 높습니다. 기준이 구체적이고 명확하나, 지나치게 높은 기준이 관계 형성을 어렵게 할 수 있어 탐색이 필요합니다.', color: '#993C1D' };
-  if (avg >= 3.0) return { text: '이성 판단 기준이 보통 수준입니다. 어떤 기준을 가장 중요하게 여기는지, 그 이유는 무엇인지 함께 탐색해보면 좋습니다.', color: '#885508' };
-  return { text: '이성 판단 기준이 비교적 낮거나 유연한 편입니다. 원하는 관계의 방향성을 구체화하는 작업이 도움이 될 수 있습니다.', color: '#3B6D11' };
+  if (avg >= 4.0) return { type: '기준 중시형', desc: '이성을 선택할 때 뚜렷한 기준을 가지고 있습니다. 기준이 명확한 것은 강점이지만, 지나치게 높은 기준이 관계 형성을 어렵게 할 수 있어 함께 탐색해보면 좋습니다.', color: '#993C1D' };
+  if (avg >= 3.0) return { type: '균형 탐색형', desc: '이성 판단 기준이 전반적으로 균형 잡혀 있습니다. 어떤 기준을 가장 중요하게 여기는지, 그 이유는 무엇인지 함께 살펴보면 좋습니다.', color: '#885508' };
+  return { type: '유연 개방형', desc: '이성 판단 기준이 비교적 유연한 편입니다. 원하는 관계의 방향성을 구체화하는 작업이 도움이 될 수 있습니다.', color: '#3B6D11' };
 }
 
 function beliefComment(avg) {
-  if (avg >= 4.0) return { text: '연애에 대한 이상화 및 비합리적 기대 수준이 높습니다. 이러한 신념이 현실 관계에서 반복적인 실망이나 갈등으로 이어질 수 있어 탐색이 필요합니다.', color: '#993C1D' };
-  if (avg >= 3.0) return { text: '연애 신념이 보통 수준입니다. 일부 비합리적 기대가 갈등의 원인이 될 수 있으므로, 어떤 신념이 관계에 영향을 주는지 살펴보면 좋습니다.', color: '#885508' };
-  return { text: '연애에 대한 신념이 비교적 현실적입니다. 관계를 유연하게 바라보는 태도가 안정적인 관계 형성에 도움이 됩니다.', color: '#3B6D11' };
+  if (avg >= 4.0) return { type: '이상화 경향형', desc: '연애에 대한 이상화 및 비합리적 기대 수준이 높습니다. 이러한 신념이 현실 관계에서 반복적인 실망이나 갈등으로 이어질 수 있어 탐색이 필요합니다.', color: '#993C1D' };
+  if (avg >= 3.0) return { type: '혼재 신념형', desc: '현실적 시각과 이상적 기대가 혼재되어 있습니다. 어떤 신념이 관계에 영향을 주는지 함께 살펴보면 갈등 예방에 도움이 됩니다.', color: '#885508' };
+  return { type: '현실 수용형', desc: '연애에 대한 신념이 비교적 현실적입니다. 관계를 유연하게 바라보는 태도가 안정적인 관계 형성에 도움이 됩니다.', color: '#3B6D11' };
 }
 
 function attachType(anx, avo) {
@@ -925,10 +925,10 @@ function showResult() {
     });
     html += `</div>
       <div class="attach-type-box" style="margin-top:10px;">
-        <span style="font-size:18px;">💡</span>
+        <span style="font-size:18px;">🔍</span>
         <div>
-          <div class="attach-type-label">해석 코멘트</div>
-          <div class="attach-type-val" style="color:${partnerComment(avg).color}; font-size:12px; font-weight:400;">${partnerComment(avg).text}</div>
+          <div class="attach-type-label">이성 판단 유형</div>
+          <div class="attach-type-val" style="color:${partnerComment(avg).color};">${partnerComment(avg).type} — <span style="font-weight:400; font-size:12px;">${partnerComment(avg).desc}</span></div>
         </div>
       </div>
     </div>`;
@@ -999,10 +999,10 @@ function showResult() {
     });
     html += `</div>
       <div class="attach-type-box" style="margin-top:10px;">
-        <span style="font-size:18px;">💡</span>
+        <span style="font-size:18px;">🔍</span>
         <div>
-          <div class="attach-type-label">해석 코멘트</div>
-          <div class="attach-type-val" style="color:${beliefComment(avg).color}; font-size:12px; font-weight:400;">${beliefComment(avg).text}</div>
+          <div class="attach-type-label">연애 신념 유형</div>
+          <div class="attach-type-val" style="color:${beliefComment(avg).color};">${beliefComment(avg).type} — <span style="font-weight:400; font-size:12px;">${beliefComment(avg).desc}</span></div>
         </div>
       </div>
     </div>`;
