@@ -516,6 +516,7 @@
     .attach-grid { grid-template-columns: 1fr 1fr; }
   }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -617,8 +618,12 @@
     </div>
     <div id="result-body"></div>
     <div class="result-actions">
-      <button class="btn" onclick="window.print()">🖨️ 결과 인쇄 / PDF 저장</button>
+      <button class="btn" onclick="window.print()">🖨️ 인쇄 / PDF</button>
+      <button class="btn" id="save-img-btn" onclick="saveAsImage()" style="background:#3B6D11; border-color:#3B6D11; color:white;">📸 이미지 저장</button>
       <button class="btn btn-primary" onclick="restart()">↺ 다시 시작</button>
+    </div>
+    <div id="save-progress" style="display:none; text-align:center; margin-top:10px; font-size:13px; color:#3B6D11; font-weight:500;">
+      🔄 이미지 생성 중... 잠시 기다려주세요
     </div>
     <div class="page-footer">
       지음가정상담소 · www.ziumzium.com<br>
@@ -1095,6 +1100,71 @@ function showResult() {
 
   document.getElementById('result-body').innerHTML = html;
   scrollTo(0, 0);
+}
+
+function saveAsImage() {
+  const btn = document.getElementById('save-img-btn');
+  const progress = document.getElementById('save-progress');
+  const actionsDiv = document.querySelector('.result-actions');
+
+  // 버튼 숨기고 진행 메시지 표시
+  actionsDiv.style.display = 'none';
+  progress.style.display = 'block';
+
+  // 캡처할 영역 (결과 화면 전체)
+  const target = document.getElementById('result-screen');
+
+  html2canvas(target, {
+    scale: 2,
+    useCORS: true,
+    allowTaint: true,
+    backgroundColor: '#ffffff',
+    scrollX: 0,
+    scrollY: 0,
+    windowWidth: target.scrollWidth,
+    windowHeight: target.scrollHeight,
+    logging: false,
+  }).then(canvas => {
+    // 이미지 다운로드
+    const link = document.createElement('a');
+    const now = new Date();
+    const dateStr = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+    link.download = `이성판단관계유형검사_결과_${dateStr}.png`;
+    link.href = canvas.toDataURL('image/png', 1.0);
+
+    // 모바일 대응: 새 탭으로 열기
+    if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      const img = canvas.toDataURL('image/png', 1.0);
+      const win = window.open('', '_blank');
+      win.document.write(`
+        <html><head>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>검사 결과</title>
+          <style>
+            body { margin:0; background:#f5f5f5; display:flex; flex-direction:column; align-items:center; padding:20px; font-family:sans-serif; }
+            img { max-width:100%; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.15); }
+            p { color:#555; font-size:14px; margin-top:16px; text-align:center; line-height:1.6; }
+          </style>
+        </head><body>
+          <img src="${img}" alt="검사 결과">
+          <p>📸 이미지를 <strong>꾹 눌러서</strong> 사진 앨범에 저장하세요</p>
+        </body></html>
+      `);
+      win.document.close();
+    } else {
+      link.click();
+    }
+
+    // 버튼 다시 표시
+    actionsDiv.style.display = 'flex';
+    progress.style.display = 'none';
+
+  }).catch(err => {
+    console.error(err);
+    actionsDiv.style.display = 'flex';
+    progress.style.display = 'none';
+    alert('이미지 저장 중 오류가 발생했습니다. 인쇄 기능을 이용해주세요.');
+  });
 }
 
 function restart() {
