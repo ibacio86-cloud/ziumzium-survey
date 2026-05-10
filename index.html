@@ -453,55 +453,59 @@
 
   /* ── PRINT STYLES ── */
   @media print {
-    @page {
-      size: A4;
-      margin: 10mm 12mm;
-    }
+    @page { size: A4; margin: 8mm 10mm; }
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-    body { background: white !important; font-size: 11px !important; }
-    .site-header { position: static !important; box-shadow: none; padding: 8px 16px; }
-    .site-header .logo-mark { width: 24px; height: 24px; font-size: 12px; }
-    .site-header .logo-text { font-size: 12px; }
-    .site-header .logo-sub { font-size: 9px; }
+
+    body { background: white !important; }
+    .site-header { position: static !important; padding: 6px 14px; }
+    .site-header .logo-mark { width: 22px; height: 22px; font-size: 11px; }
+    .site-header .logo-text { font-size: 11px; }
+    .site-header .logo-sub { font-size: 8px; }
     .header-right { display: none; }
+
     #cover-screen, #survey-screen { display: none !important; }
     #result-screen { display: block !important; }
     .result-actions { display: none !important; }
-    .page-footer { display: block !important; font-size: 9px; margin-top: 8px; }
-    .container { padding: 8px 0 16px; max-width: 100%; }
+    .page-footer { display: block !important; font-size: 8px; margin-top: 6px; }
+    .container { padding: 6px 0 10px; max-width: 100%; }
 
-    /* 결과 헤더 */
-    .result-header { padding: 10px 0 10px; margin-bottom: 10px; }
-    .result-header h2 { font-size: 16px; margin-bottom: 4px; }
-    .result-header p { font-size: 10px; }
-    .result-meta { font-size: 10px; margin-top: 6px; }
-    .cover-badge { font-size: 9px; padding: 2px 10px; margin-bottom: 6px; }
+    /* 헤더 */
+    .result-header { padding: 8px 0; margin-bottom: 8px; text-align: left; border-bottom: 1.5px solid #3C3489; }
+    .result-header h2 { font-size: 15px; margin-bottom: 3px; }
+    .result-header p { font-size: 9px; line-height: 1.5; }
+    .result-meta { font-size: 9px; margin-top: 4px; gap: 12px; }
+    .cover-badge { font-size: 8px; padding: 2px 8px; margin-bottom: 4px; }
 
-    /* 도메인 카드 */
-    .domain-card { padding: 10px; margin-bottom: 8px; break-inside: avoid; }
-    .domain-top { margin-bottom: 6px; }
-    .domain-name { font-size: 12px; }
+    /* 카드 2열 그리드로 배치 */
+    #result-body { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .domain-card { padding: 8px; margin-bottom: 0; break-inside: avoid; border-radius: 6px; }
+    .counselor-note { grid-column: 1 / -1; padding: 8px; margin-top: 0; border-radius: 6px; }
+
+    /* 카드 내부 */
+    .domain-top { margin-bottom: 5px; }
+    .domain-icon { font-size: 14px; }
+    .domain-name { font-size: 11px; }
     .domain-avg { font-size: 14px; }
-    .domain-avg-label { font-size: 9px; }
-    .bar-track { height: 5px; margin-bottom: 4px; }
-    .bar-ends { font-size: 9px; margin-bottom: 8px; }
+    .domain-avg-label { font-size: 8px; }
+    .bar-track { height: 4px; margin-bottom: 3px; }
+    .bar-ends { font-size: 8px; margin-bottom: 6px; }
 
-    /* 서브 그리드 */
-    .sub-grid { gap: 5px; }
-    .sub-chip { padding: 6px 8px; font-size: 10px; }
-    .sub-chip-score { font-size: 13px; }
+    /* 서브칩 */
+    .sub-grid { gap: 4px; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); }
+    .sub-chip { padding: 4px 6px; border-radius: 6px; }
+    .sub-chip-name { font-size: 8px; margin-bottom: 1px; }
+    .sub-chip-score { font-size: 12px; }
 
     /* 애착 */
-    .attach-grid { gap: 6px; margin-top: 8px; }
-    .attach-box { padding: 8px; }
-    .attach-box-label { font-size: 10px; margin-bottom: 3px; }
-    .attach-box-score { font-size: 18px; }
-    .attach-type-box { padding: 8px 10px; margin-top: 8px; font-size: 11px; }
+    .attach-grid { gap: 5px; margin-top: 6px; }
+    .attach-box { padding: 6px; border-radius: 6px; }
+    .attach-box-label { font-size: 9px; margin-bottom: 2px; }
+    .attach-box-score { font-size: 16px; }
+    .attach-type-box { padding: 6px 8px; margin-top: 6px; font-size: 9px; border-radius: 6px; }
 
     /* 상담자 노트 */
-    .counselor-note { padding: 10px; margin-top: 10px; font-size: 10px; line-height: 1.7; }
-    .counselor-note-title { font-size: 12px; margin-bottom: 6px; }
-    .note-row { margin-bottom: 4px; }
+    .counselor-note-title { font-size: 11px; margin-bottom: 5px; }
+    .note-row { font-size: 9px; margin-bottom: 3px; line-height: 1.6; }
   }
 
   @media (max-width: 480px) {
